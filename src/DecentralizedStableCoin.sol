@@ -32,7 +32,7 @@ import {Ownable} from "../lib/openzeppelin-contracts/contracts/access/Ownable.so
  * Minting: Algorithmic
  * Relative Stablility: Pegged to USD
  *
- * @dev This is the contract meant to be governed by ESCEngine. This contract is just ERC20
+ * @dev This is the contract meant to be governed by DSCEngine. This contract is just ERC20
  * implementation of our stablecoin system.
  *
  */
