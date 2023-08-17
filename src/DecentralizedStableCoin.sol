@@ -1,8 +1,8 @@
 // Layout of Contract:
 // version
 // imports
-// errors
 // interfaces, libraries, contracts
+// errors
 // Type declarations
 // State variables
 // Events
@@ -25,7 +25,7 @@ pragma solidity ^0.8.18;
 import {ERC20Burnable, ERC20} from "../lib/openzeppelin-contracts/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import {Ownable} from "../lib/openzeppelin-contracts/contracts/access/Ownable.sol";
 
-/*
+/**
  * @title DecentralizedStableCoin
  * @author Bohr
  * Collateral: Exogenous (ETH & BTC)
