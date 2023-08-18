@@ -57,6 +57,7 @@ contract DSCEngine is ReentrancyGuard {
     error DSCEngine__TokenNotAllowed(address token);
     error DSCEngine__TransferFailed();
     error DSCEngine__BreaksHealthFactor(uint256 healthFactor);
+    error DSCEngine__MintFailed();
 
     ////////////////////
     // State Variables//
@@ -177,6 +178,10 @@ contract DSCEngine is ReentrancyGuard {
 
         // if user minted too much, revert
         _revertIfHealthFactorIsBroken(msg.sender);
+        bool minted = i_dsc.mint(msg.sender, amountDscToMint);
+        if (!minted) {
+            revert DSCEngine__MintFailed();
+        }
     }
 
     // When collateral is going to liquidate, but borrower have no enough DAI to redeem collateral, then the borrower can use this function
