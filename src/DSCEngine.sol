@@ -51,9 +51,7 @@ contract DSCEngine is ReentrancyGuard {
     // Errors         //
     ////////////////////
     error DSCEngine__NeedsMoreThanZero();
-    error DSCEngine__TokenAddressesAndPriceFeedAddressMustBeSameLength(
-        uint256 tokenAddressesLength, uint256 priceFeedAddressLength
-    );
+    error DSCEngine__TokenAddressesAndPriceFeedAddressMustBeSameLength();
     error DSCEngine__TokenNotAllowed(address token);
     error DSCEngine__TransferFailed();
     error DSCEngine__BreaksHealthFactor(uint256 healthFactor);
@@ -120,9 +118,7 @@ contract DSCEngine is ReentrancyGuard {
         address dscTokenAddress // Our stable coin address
     ) ReentrancyGuard() {
         if (tokenAddresses.length != priceFeedsAddresses.length) {
-            revert DSCEngine__TokenAddressesAndPriceFeedAddressMustBeSameLength(
-                tokenAddresses.length, priceFeedsAddresses.length
-            );
+            revert DSCEngine__TokenAddressesAndPriceFeedAddressMustBeSameLength();
         }
 
         for (uint256 i = 0; i < tokenAddresses.length; i++) {
@@ -276,7 +272,6 @@ contract DSCEngine is ReentrancyGuard {
         // I don't think liquidator's health factor will change after he liquidate a user
         // so why we need check here?
         _revertIfHealthFactorIsBroken(msg.sender);
-        
     }
 
     function gethealthFactor() external view {}
@@ -377,5 +372,9 @@ contract DSCEngine is ReentrancyGuard {
         // 1 ETH = $1000
         // The returned value from Chainlink will be 1000 * 1e8
         return ((uint256(price) * ADDITIONAL_FEED_PRECISION) * amount) / PRECISION; // (1000 * 1e8 * (1e10)) * 1000 * 1e18;
+    }
+
+    function getAccountInformation(address user) external view returns (uint256 totalDscMinted, uint256 collateralValueInUsd) {
+        (totalDscMinted, collateralValueInUsd) = _getAccountInformation(user);
     }
 }
