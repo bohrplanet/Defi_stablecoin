@@ -332,6 +332,12 @@ contract DSCEngine is ReentrancyGuard {
         // So if we find that a value maybe more than 1, and small than 0, then we can multiply 1e18
         // in this case, collateralAdjustedForThreshold is a uint256, and totalDscMinted is also uint256
         // so we nned multiply 1e18 to keep the presicion
+
+        // If totalDscMinted is 0, then return type(uint256).max;
+        if (totalDscMinted == 0) {
+            return type(uint256).max;
+        }
+
         return (collateralAdjustedForThreshold * PRECISION / totalDscMinted);
     }
 
@@ -374,7 +380,11 @@ contract DSCEngine is ReentrancyGuard {
         return ((uint256(price) * ADDITIONAL_FEED_PRECISION) * amount) / PRECISION; // (1000 * 1e8 * (1e10)) * 1000 * 1e18;
     }
 
-    function getAccountInformation(address user) external view returns (uint256 totalDscMinted, uint256 collateralValueInUsd) {
+    function getAccountInformation(address user)
+        external
+        view
+        returns (uint256 totalDscMinted, uint256 collateralValueInUsd)
+    {
         (totalDscMinted, collateralValueInUsd) = _getAccountInformation(user);
     }
 }
